@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Medium Text"
+            android:id="@+id/textViewNewFriendNameSurname"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginLeft="55dp" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_view_add_friend"
+            android:id="@+id/buttonAddFriemd"
+            android:layout_gravity="right|center_vertical"
+            android:textColor="#ffffff"
+            android:backgroundTint="@color/colorPrimary" />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/imageViewNewFriendAvatar"
+            android:layout_gravity="left|center_vertical"
+            android:src="@drawable/user_avatar"
+            android:padding="5dp" />
+
+    </FrameLayout>
+
+</LinearLayout>

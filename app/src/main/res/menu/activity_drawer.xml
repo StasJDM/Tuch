@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_messages"
+            android:icon="@drawable/message_icon"
+            android:title="@string/nav_messages" />
+
+        <item
+            android:id="@+id/nav_contacts"
+            android:icon="@drawable/contacts_icon"
+            android:title="@string/nav_contacts" />
+    </group>
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_collection"
+            android:icon="@drawable/sticker_collection_icon"
+            android:title="@string/nav_collection" />
+
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/settings_icon"
+            android:title="@string/nav_settings" />
+
+    </group>
+
+
+</menu>

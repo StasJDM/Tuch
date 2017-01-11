@@ -1,0 +1,89 @@
+<resources>
+    <string name="app_name">Tuch</string>
+    <string name="btnLogin">Войти</string>
+    <string name="LoginText">Введите логин и пароль</string>
+    <string name="etLogin">Телефон</string>
+    <string name="etPassword">Пароль</string>
+    <string name="btnLoginToRegister">Еще нет аккаунта? Зарегистрируйтесь</string>
+    <string name="textViewSex"> Ваш пол: </string>
+    <string name="radioMale">Мужской</string>
+    <string name="radioFemale">Женский</string>
+    <string name="btnRegister">Зарегестрироваться</string>
+    <string name="checkAgree">Я согласен с </string>
+    <string name="btnAgree">правилами пользования</string>
+    <string name="etName">Ваше имя</string>
+    <string name="etSurname">Ваша фамилия</string>
+    <string name="etPhone">Введите номер телефона</string>
+    <string name="etPassword1">Придумайте пароль</string>
+    <string name="etPassword2">Повторите пароль</string>
+    <string name="textViewDate">Дата рождения</string>
+    <string name="title_activity_message">Сообщения</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+
+    <string name="nav_messages">Сообщения</string>
+    <string name="nav_contacts">Друзья</string>
+    <string name="nav_collection">Моя коллекция</string>
+    <string name="nav_settings">Настройки</string>
+    <string name="nav_help">Помощь</string>
+    <string name="title_activity_create_message">Новое сообщение</string>
+    <string name="title_activity_settings">Настройки</string>
+
+    <string name="create_message_text">Выберете собеседника:</string>
+    <string name="create_group_message">Создать групповой чат</string>
+    <string name="action_create_message">Новое сообщение</string>
+    <string name="settings_tv_info">Информация</string>
+    <string name="settings_tv_login">Логин</string>
+    <string name="title_activity_contacts">Друзья</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="invite_friend_text">Пригласить друзей</string>
+    <string name="contacts_text">Друзья</string>
+    <string name="about_text">
+        Версия: 0.0.5\n
+        Станислав Пятницын\n
+        Илья Конопленко\n
+        2016\n
+    </string>
+    <string name="title_activity_about">О приложении</string>
+    <string name="title_activity_help">Справка</string>
+    <string name="title_activity_account_settings">Редактировать профиль</string>
+    <string name="title_activity_app_settings">Настройки приложения</string>
+    <string name="group_chat_text">Выберете собеседников:</string>
+    <string name="create_group_chat">Начать переписку</string>
+    <string name="title_activity_dialog">DialogActivity</string>
+    <string name="title_activity_profile">Моя Страница</string>
+    <string name="title_activity_collection">Моя коллекция</string>
+    <string name="action_invite_friends">Пригласить друзей</string>
+    <string name="action_edit_profile">Редактировать профиль</string>
+    <string name="editText_message">Текст сообщения</string>
+    <string name="title_activity_one_post">OnePostActivity</string>
+    <string name="editTextDateDay">День</string>
+    <string name="editTextDateMonth">Месяц</string>
+    <string name="editTextDateYear">Год</string>
+    <string name="nav_header_name_and_surname">Имя Фамилия</string>
+    <string name="textViewFriendRequest_0">Добавить в друзья</string>
+    <string name="textViewFriendRequest_1">Запрос отправлен</string>
+    <string name="textViewFriendRequest_2_1">Принять заявку</string>
+    <string name="textViewFriendRequest_2_2">Оставить в подписчиках</string>
+    <string name="textViewFriendRequest_3">Убрать из друзей</string>
+    <string name="search_friend_text">Найти друзей</string>
+    <string name="title_activity_search">SearchActivity</string>
+    <string name="textViewSexEdit">Изменить пол:</string>
+    <string name="textViewEditName">Изменить имя</string>
+    <string name="textViewEditSurname">Изменить фамилию</string>
+    <string name="textViewEditPassword">Изменить пароль</string>
+    <string name="editTextOldPassword">Введите старый пароль</string>
+    <string name="editTextNewPassword1">Введите новый пароль</string>
+    <string name="editTextNewPassword2">Повторите новый пароль</string>
+    <string name="buttonEditAccount">Сохранить</string>
+    <string name="editTextEditName">Введите имя</string>
+    <string name="editTextEditSurname">Введите фамилию</string>
+    <string name="textViewNewFriends">Заявки в друзья</string>
+    <string name="new_friends_text">Заявки в друзья</string>
+    <string name="text_view_add_friend">Добавить</string>
+    <string name="textViewCreateMessage">Написать сообщение</string>
+    <string name="title_activity_main2">Main2Activity</string>
+</resources>
