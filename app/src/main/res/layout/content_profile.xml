@@ -60,12 +60,12 @@
             android:layout_margin="3dp"
             android:id="@+id/textViewBirthDate" />
 
-        <TextView
+        <Button
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/textViewFriendRequest_0"
-            android:id="@+id/textViewFriendRequest"
+            android:id="@+id/buttonFriendRequest"
             android:layout_gravity="center_horizontal"
             android:textAlignment="center"
             android:paddingLeft="15dp"
@@ -77,12 +77,12 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="5dp" />
 
-        <TextView
+        <Button
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/textViewCreateMessage"
-            android:id="@+id/textViewCreateMessage"
+            android:id="@+id/buttonCreateMessage"
             android:layout_gravity="center_horizontal"
             android:textAlignment="center"
             android:paddingLeft="15dp"
@@ -93,6 +93,8 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="5dp" />
+
+
 
         <ListView
             android:layout_width="match_parent"

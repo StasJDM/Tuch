@@ -16,10 +16,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.technologies.tuch.tuch.DataBase.FriendRequest;
 import com.technologies.tuch.tuch.Settings.AccountSettingsActivity;
 import com.technologies.tuch.tuch.Settings.SettingsActivity;
 
@@ -44,7 +46,8 @@ public class ProfileActivity extends AppCompatActivity
     ListView listViewPosts;
     TextView textViewNameAndSurname;
     TextView textViewNameAndSurnameNavHeader;
-    TextView textViewCreateMessage;
+    Button buttonCreateMessage;
+    Button buttonNewFriend;
     String my_name = "";
     String my_surname = "";
     String my_id = "";
@@ -112,8 +115,10 @@ public class ProfileActivity extends AppCompatActivity
         textViewNameAndSurnameNavHeader = (TextView)header.findViewById(R.id.textViewNameAndSurnameNavHeader);
         textViewNameAndSurnameNavHeader.setText(my_name + " " + my_surname);
 
-        textViewCreateMessage = (TextView)findViewById(R.id.textViewCreateMessage);
-        textViewCreateMessage.setOnClickListener(this);
+        buttonCreateMessage = (Button)findViewById(R.id.buttonCreateMessage);
+        buttonNewFriend =(Button)findViewById(R.id.buttonFriendRequest);
+        buttonNewFriend.setOnClickListener(this);
+        buttonCreateMessage.setOnClickListener(this);
 
         new getPosts().execute();
     }
@@ -184,12 +189,15 @@ public class ProfileActivity extends AppCompatActivity
 
         Intent intent;
         switch (v.getId()){
-            case R.id.textViewCreateMessage:
+            case R.id.buttonCreateMessage:
                 intent = new Intent(ProfileActivity.this, DialogActivity.class);
                 intent.putExtra("id", id);
                 intent.putExtra("name", name);
                 intent.putExtra("surname", surname);
                 startActivity(intent);
+                break;
+            case R.id.buttonFriendRequest:
+                new FriendRequest(my_id, id, my_name + " " + my_surname, name_surname).execute();
         }
     }
 
