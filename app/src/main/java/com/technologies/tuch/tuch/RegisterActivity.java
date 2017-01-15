@@ -24,6 +24,7 @@ import java.net.URL;
 public class RegisterActivity extends AppCompatActivity implements OnClickListener{
 
     final String SERVER_NAME="http://sdyusshor1novoch.ru";
+    final String password = "dsobgigsblsd934n398gdjm349tgwle5dh3ngdfs9g34nirf234342refe";
     ImageView imageViewAvatar;
     EditText editTextName;
     EditText editTextSurname;
@@ -126,11 +127,11 @@ public class RegisterActivity extends AppCompatActivity implements OnClickListen
                 URL url = new URL("http://sdyusshor1novoch.ru/tuch/register.php?phone="
                         +user_info[0]
                         +"&password="
-                        +user_info[1]
+                        +AES.encrypt(user_info[1], password)
                         +"&name="
-                        +user_info[2]
+                        +AES.encrypt(user_info[2], password)
                         +"&surname="
-                        +user_info[3]
+                        +AES.encrypt(user_info[3], password)
                         +"&sex="
                         +user_info[4]);
                 httpURLConnection = (HttpURLConnection) url.openConnection();

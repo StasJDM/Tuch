@@ -23,12 +23,21 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 
 public class LoginActivity extends AppCompatActivity implements OnClickListener{
 
+    final String AESpassword = "dsobgigsblsd934n398gdjm349tgwle5dh3ngdfs9g34nirf234342refe";
     SharedPreferences sharedPreferences;
     Button btnLogin;
     TextView btnLoginToRegister;
@@ -118,12 +127,12 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
                 Log.d("MyLogs", "Начал выполняться метод onPostExecute");
                 JSONArray jsonArray = new JSONArray(strJson);
                 JSONObject jsonObject = jsonArray.getJSONObject(0);
-                String true_password = jsonObject.getString("password");
+                String true_password = AES.decrypt(jsonObject.getString("password"), AESpassword);
                 Log.d("MyLogs", true_password);
 
                 if (password.equals(true_password)) {
-                    name = jsonObject.getString("name");
-                    surname = jsonObject.getString("surname");
+                    name = AES.decrypt(jsonObject.getString("name"), AESpassword);
+                    surname = AES.decrypt(jsonObject.getString("surname"), AESpassword);
                     id = jsonObject.getString("_id");
                     sharedPreferences = getSharedPreferences("user_info", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -140,6 +149,20 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
                     etPassword.setHintTextColor(Color.RED);
                 }
             } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (NoSuchPaddingException e) {
+                e.printStackTrace();
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            } catch (IllegalBlockSizeException e) {
+                e.printStackTrace();
+            } catch (BadPaddingException e) {
+                e.printStackTrace();
+            } catch (NoSuchProviderException e) {
+                e.printStackTrace();
+            } catch (InvalidKeyException e) {
                 e.printStackTrace();
             }
         }

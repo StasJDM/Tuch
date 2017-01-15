@@ -3,6 +3,8 @@ package com.technologies.tuch.tuch.DataBase;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.technologies.tuch.tuch.AES;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -18,6 +20,8 @@ public class FriendRequest extends AsyncTask<Void, Void, String> {
     String friend_id;
     String my_name_surname;
     String friend_name_surname;
+    String password = "dsobgigsblsd934n398gdjm349tgwle5dh3ngdfs9g34nirf234342refe";
+
 
     public FriendRequest(String my_id, String friend_id, String my_name_surname, String friend_name_surname){
         this.my_id = my_id;
@@ -36,7 +40,7 @@ public class FriendRequest extends AsyncTask<Void, Void, String> {
 
         try {
             Log.d("MyLogs", "Начало получения информации о пользователе");
-            String urlParameters  = "action=new_contacts&contact_1_id=" + my_id + "&contact_2_id=" + friend_id + "&contact_1_name=" + my_name_surname + "&contact_2_name=" + friend_name_surname + "&type=0";
+            String urlParameters  = "action=new_contacts&contact_1_id=" + my_id + "&contact_2_id=" + friend_id + "&contact_1_name=" + AES.encrypt(my_name_surname, password) + "&contact_2_name=" +AES.encrypt(friend_name_surname, password) + "&type=0";
             String url = "http://sdyusshor1novoch.ru/tuch/friends_request.php";
             URL obj = new URL(url);
             HttpURLConnection httpURLConnection = (HttpURLConnection)obj.openConnection();
