@@ -58,7 +58,8 @@ public class MessageActivity extends AppCompatActivity
     String id = "";
     String name = "";
     String surname = "";
-    ArrayList<String> message_id = new ArrayList();
+    ArrayList<Message> messages = new ArrayList<>();
+    /*ArrayList<String> message_id = new ArrayList();
     ArrayList<String> message_author_id = new ArrayList();
     ArrayList<String> message_client_id = new ArrayList();
     ArrayList<String> message_type = new ArrayList();
@@ -67,11 +68,9 @@ public class MessageActivity extends AppCompatActivity
     ArrayList<String> message_date_time = new ArrayList();
     ArrayList<String> messageQuantity = new ArrayList<>();
     ArrayList<String> users_id = new ArrayList();
-    //ArrayList<String> user_name = new ArrayList();
-    //ArrayList<String> user_surname = new ArrayList();
     ArrayList<String> user_name_surname = new ArrayList<>();
     ArrayList<String> author_name = new ArrayList<>();
-    ArrayList<String> client_name = new ArrayList<>();
+    ArrayList<String> client_name = new ArrayList<>();*/
     int i_gui = 0;
     String password = "dsobgigsblsd934n398gdjm349tgwle5dh3ngdfs9g34nirf234342refe";
     SQLiteCreater sqLiteCreater;
@@ -111,7 +110,6 @@ public class MessageActivity extends AppCompatActivity
 
         sqLiteCreater = new SQLiteCreater(this, "Database", null, 1);
         getSQLiteMessages();
-        //new GetAllMessages().execute();
     }
 
     @Override
@@ -195,7 +193,7 @@ public class MessageActivity extends AppCompatActivity
             try {
                 i_gui = 0;
                 Log.d("MyLogs", "Начало получение сообщений");
-                URL url = new URL("http://sdyusshor1novoch.ru/tuch/get_messages.php?action=select_all_messages&author_id=" + id);
+                URL url = new URL("http://sdyusshor1novoch.ru/tuch/get_messages.php?action=all_messages&author_id=" + id);
                 httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("GET");
                 httpURLConnection.connect();
@@ -222,52 +220,38 @@ public class MessageActivity extends AppCompatActivity
                 JSONArray jsonArray = new JSONArray(strJson);
                 JSONObject jsonObject;
                 int i = 0;
-                users_id.clear();
-                //user_name.clear();
-                //user_surname.clear();
+                /*users_id.clear();
                 user_name_surname.clear();
                 message_text.clear();
                 messageQuantity.clear();
-                message_date_time.clear();
+                message_date_time.clear();*/
+                Message message;
                 while (i < jsonArray.length()) {
+                    message = new Message();
                     jsonObject = jsonArray.getJSONObject(i);
                     Log.d("MyLogs", jsonObject.toString());
-                    message_id.add(jsonObject.getString("id"));
-                    message_author_id.add(jsonObject.getString("author_id"));
-                    message_client_id.add(jsonObject.getString("client_id"));
-                    message_type.add(jsonObject.getString("type"));
-                    message_name.add(jsonObject.getString("name"));
-                    author_name.add(AES.decrypt(jsonObject.getString("author_name_surname"), password));
-                    client_name.add(AES.decrypt(jsonObject.getString("client_name_surname"), password));
-                    Calendar c = Calendar.getInstance();
-                    c.setTimeInMillis(Long.valueOf(jsonObject.getInt("last_message_time")));
-                    SimpleDateFormat formatDate = new SimpleDateFormat("HH:mm");
-                    String formatted = formatDate.format(c.getTime());
-
-                    message_text.add(AES.decrypt(jsonObject.getString("last_message"), password));
-
-                    message_date_time.add(formatted);
-                    if (message_author_id.get(i).equals(id)) {
-                        users_id.add(message_client_id.get(i));
-                        messageQuantity.add(jsonObject.getString("is_read_1"));
-                        user_name_surname.add(client_name.get(i));
+                    message.setId(jsonObject.getString("id"));
+                    message.setAuthorId(jsonObject.getString("author_id"));
+                    message.setClientId(jsonObject.getString("client_id"));
+                    message.setType(jsonObject.getString("type"));
+                    message.setName(jsonObject.getString("name"));
+                    message.setAuthorName(AES.decrypt(jsonObject.getString("author_name"), password));
+                    message.setClientName(AES.decrypt(jsonObject.getString("client_name"), password));
+                    message.setText(AES.decrypt(jsonObject.getString("last_message"), password));
+                    message.setDateTime(jsonObject.getString("last_message_time"));
+                    if (message.getAuthorId().equals(id)) {
+                        message.setUsersId(message.getClientId());
+                        message.setQuantity(jsonObject.getString("is_read_1"));
+                        message.setUserNameSurname(message.getClientName());
                     } else {
-                        users_id.add(message_author_id.get(i));
-                        messageQuantity.add(jsonObject.getString("is_read_2"));
-                        user_name_surname.add(author_name.get(i));
+                        message.setUsersId(message.getAuthorId());
+                        message.setQuantity(jsonObject.getString("is_read_2"));
+                        message.setUserNameSurname(message.getAuthorName());
                     }
+                    messages.add(message);
                     i++;
-                    Log.d("MyLogs", String.valueOf(users_id.size()));
+                    Log.d("MyLogs", String.valueOf(messages.size()));
                 }
-                /*while (i_gui < users_id.size()) {
-                    new GetUserInfo().execute();
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    i++;
-                }*/
                 createListMessages();
                 updateSQLiteMessages();
                 Log.d("MyLogs", "Конец цикла получения сообщений");
@@ -290,84 +274,18 @@ public class MessageActivity extends AppCompatActivity
             }
         }
 
-        public class GetUserInfo extends AsyncTask<Void, Void, String> {
-
-            HttpURLConnection httpURLConnection = null;
-            BufferedReader bufferedReader = null;
-            String resultJson = "";
-
-
-            @Override
-            protected String doInBackground(Void... params) {
-
-                try {
-                    Log.d("MyLogs", "Начало получения информации о пользователе");
-                    String b = users_id.get(i_gui);
-                    //a = 1;
-                    Log.d("MyLogs", "User id : " + b);
-                    URL url = new URL("http://sdyusshor1novoch.ru/tuch/get_user_info.php?action=select_from_id&id=" + b);
-                    i_gui++;
-                    if (i_gui==users_id.size()){
-                        createListMessages();
-                        updateSQLiteMessages();
-                    }
-                    httpURLConnection = (HttpURLConnection) url.openConnection();
-                    httpURLConnection.setRequestMethod("GET");
-                    httpURLConnection.connect();
-                    InputStream inputStream = httpURLConnection.getInputStream();
-                    StringBuffer stringBuffer = new StringBuffer();
-                    bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-                    String line;
-                    while ((line = bufferedReader.readLine()) != null) {
-                        stringBuffer.append(line);
-                    }
-                    resultJson = stringBuffer.toString();
-                    Log.d("MyLogs", resultJson);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return resultJson;
-            }
-
-            @Override
-            protected void onPostExecute(String strJson) {
-                super.onPostExecute(strJson);
-                try {
-                    JSONArray jsonArray = new JSONArray(strJson);
-                    JSONObject jsonObject;
-                    int i = 0;
-                    while (i < jsonArray.length()) {
-                        jsonObject = jsonArray.getJSONObject(i);
-                        Log.d("MyLogs", jsonObject.toString());
-                        //user_name.add(jsonObject.getString("name"));
-                        //user_surname.add(jsonObject.getString("surname"));
-                        //Log.d("MyLogs", users_id + " " + user_name + " " + user_surname);
-                        i++;
-                    }
-                    Log.d("MyLogs", String.valueOf(i_gui) + "  " + users_id.size());
-                    if (i_gui > users_id.size()) {
-                        createListMessages();
-                        updateSQLiteMessages();
-                    }else {
-                        new GetUserInfo().execute();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
     }
 
     public void createListMessages() {
 
-        ArrayList<Map<String, Object>> arrayList = new ArrayList<Map<String, Object>>(users_id.size());
+        ArrayList<Map<String, Object>> arrayList = new ArrayList<Map<String, Object>>(messages.size());
         Map<String, Object> map;
-        for (int i = 0; i < users_id.size(); i++) {
+        for (int i = 0; i < messages.size(); i++) {
             map = new HashMap<String, Object>();
-            map.put("name", /*user_name.get(i) + " " + user_surname.get(i)*/ user_name_surname.get(i));
-            map.put("message", message_text.get(i));
-            map.put("messageTimeDate", message_date_time.get(i));
-            map.put("messageQuantity", messageQuantity.get(i));
+            map.put("name",  messages.get(i).getUserNameSurname());
+            map.put("message", messages.get(i).getText());
+            map.put("messageTimeDate", messages.get(i).getDateTime());
+            map.put("messageQuantity", messages.get(i).getQuantity());
             map.put("friendAvatar", friendAvatar);
             arrayList.add(map);
         }
@@ -381,9 +299,9 @@ public class MessageActivity extends AppCompatActivity
         listViewMessages.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String[] words = user_name_surname.get(position).split(" ");
+                String[] words = messages.get(position).getUserNameSurname().split(" ");
                 Intent intent = new Intent(MessageActivity.this, DialogActivity.class);
-                intent.putExtra("id", users_id.get(position));
+                intent.putExtra("id", messages.get(position).getUsersId());
                 intent.putExtra("name", words[0]);
                 intent.putExtra("surname", words[1]);
                 startActivity(intent);
@@ -402,13 +320,13 @@ public class MessageActivity extends AppCompatActivity
 
         SQLiteDatabase db = sqLiteCreater.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        for (int i = 0; i < users_id.size(); i++, i++) {
-            contentValues.put("id", Integer.valueOf(users_id.get(i)));
-            contentValues.put("last_message_text", message_text.get(i));
-            contentValues.put("last_message_time", message_date_time.get(i));
-            contentValues.put("friend", /*user_name.get(i) + " " + user_surname.get(i)*/ user_name_surname.get(i));
-            contentValues.put("quantity", Integer.valueOf(messageQuantity.get(i)));
-            long rowID = db.update("Messages", contentValues, "id = ?", new String[] { users_id.get(i) });
+        for (int i = 0; i < messages.size(); i++, i++) {
+            contentValues.put("id", Integer.valueOf(messages.get(i).getUsersId()));
+            contentValues.put("last_message_text", messages.get(i).getText());
+            contentValues.put("last_message_time", messages.get(i).getDateTime());
+            contentValues.put("friend", messages.get(i).getUserNameSurname());
+            contentValues.put("quantity", Integer.valueOf(messages.get(i).getQuantity()));
+            long rowID = db.update("Messages", contentValues, "id = ?", new String[] { messages.get(i).getUsersId() });
         }
         /*users_id.clear();
         user_name.clear();
@@ -429,13 +347,14 @@ public class MessageActivity extends AppCompatActivity
             int last_message_timeIndex = c.getColumnIndex("last_message_time");
             int friendIndex = c.getColumnIndex("friend");
             int quantityIndex = c.getColumnIndex("quantity");
+            Message message;
             do {
-                Log.d("MyLogs", "id = " + c.getInt(idIndex) + ", last message text = " + c.getString(last_message_textIndex) + ", last message time = " + c.getString(last_message_timeIndex) + ", friend = " + c.getString(friendIndex) + ", quantity = " + c.getString(quantityIndex));
-                users_id.add(String.valueOf(c.getInt(idIndex)));
-                user_name_surname.add(c.getString(friendIndex));
-                message_text.add(c.getString(last_message_textIndex));
-                messageQuantity.add(String.valueOf(c.getInt(quantityIndex)));
-                message_date_time.add(c.getString(last_message_timeIndex));
+                message = new Message();
+                message.setUsersId(String.valueOf(c.getInt(idIndex)));
+                message.setUserNameSurname(c.getString(friendIndex));
+                message.setText(c.getString(last_message_textIndex));
+                message.setQuantity(String.valueOf(c.getInt(quantityIndex)));
+                message.setDateTime(c.getString(last_message_timeIndex));
             } while (c.moveToNext());
             createListMessages();
             new GetAllMessages().execute();

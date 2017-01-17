@@ -250,8 +250,6 @@ public class ProfileActivity extends AppCompatActivity
                     Log.d("MyLogs", jsonObject.toString());
                     author_id.add(jsonObject.getString("author_id"));
                     author_name.add(jsonObject.getString("author_name"));
-                    author_surname.add(jsonObject.getString("author_surname"));
-                    author_name_surname.add(author_name.get(i) + " " + author_surname.get(i));
                     post_id.add(jsonObject.getString("id"));
                     date_create.add(jsonObject.getString("date_create"));
                     text.add(jsonObject.getString("text"));
@@ -271,8 +269,8 @@ public class ProfileActivity extends AppCompatActivity
         Map<String, Object> map;
         for (int i = post_id.size(); i!=0; i--) {
             map = new HashMap<String, Object>();
-            map.put("author_name_surname", author_name_surname.get(i-1));
-            Log.d("MyLogs", author_name_surname.get(i-1));
+            map.put("author_name_surname", author_name.get(i-1));
+            Log.d("MyLogs", author_name.get(i-1));
             map.put("date_create", date_create.get(i-1));
             Log.d("MyLogs", date_create.get(i-1));
             map.put("text", text.get(i-1));

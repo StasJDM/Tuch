@@ -40,7 +40,7 @@ public class FriendRequest extends AsyncTask<Void, Void, String> {
 
         try {
             Log.d("MyLogs", "Начало получения информации о пользователе");
-            String urlParameters  = "action=new_contacts&contact_1_id=" + my_id + "&contact_2_id=" + friend_id + "&contact_1_name=" + AES.encrypt(my_name_surname, password) + "&contact_2_name=" +AES.encrypt(friend_name_surname, password) + "&type=0";
+            String urlParameters  = "action=new_contact_0&contact_1_id=" + my_id + "&contact_2_id=" + friend_id + "&contact_1_name=" + AES.encrypt(my_name_surname, password) + "&contact_2_name=" +AES.encrypt(friend_name_surname, password) + "&type=0";
             String url = "http://sdyusshor1novoch.ru/tuch/friends_request.php";
             URL obj = new URL(url);
             HttpURLConnection httpURLConnection = (HttpURLConnection)obj.openConnection();

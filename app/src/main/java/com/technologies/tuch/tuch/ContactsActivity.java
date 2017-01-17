@@ -197,7 +197,7 @@ public class ContactsActivity extends AppCompatActivity
         protected String doInBackground(Void... params) {
 
             try {
-                URL url = new URL("http://sdyusshor1novoch.ru/tuch/get_contacts.php?action=get_new_contacts&id=" + id);
+                URL url = new URL("http://sdyusshor1novoch.ru/tuch/contacts.php?action=get_new_contacts&id=" + id);
                 httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("GET");
                 httpURLConnection.connect();
@@ -255,7 +255,7 @@ public class ContactsActivity extends AppCompatActivity
         protected String doInBackground(Void... params) {
 
             try {
-                URL url = new URL("http://sdyusshor1novoch.ru/tuch/get_contacts.php?action=get_contacts&id=" + id);
+                URL url = new URL("http://sdyusshor1novoch.ru/tuch/contacts.php?action=get_contacts&id=" + id);
                 httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("GET");
                 httpURLConnection.connect();
@@ -287,8 +287,8 @@ public class ContactsActivity extends AppCompatActivity
                     type.add(jsonObject.getString("type"));
                     contact_1_id.add(jsonObject.getString("contact_1_id"));
                     contact_2_id.add(jsonObject.getString("contact_2_id"));
-                    contact_1_name_surname.add(jsonObject.getString("contact_1_name_surname"));
-                    contact_2_name_surname.add(jsonObject.getString("contact_2_name_surname"));
+                    contact_1_name_surname.add(jsonObject.getString("contact_1_name"));
+                    contact_2_name_surname.add(jsonObject.getString("contact_2_name"));
                     Log.d("MyLogs", "Contact 1 id : "+contact_1_id.get(i)+" Contact 2 id : "+contact_2_id.get(i));
                     if (jsonObject.getString("type").equals("1")) {
                         if (contact_1_id.get(i).equals(id)){

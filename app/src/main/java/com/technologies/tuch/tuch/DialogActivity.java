@@ -289,7 +289,7 @@ public class DialogActivity extends AppCompatActivity
         @Override
         protected String doInBackground(Void... params) {
             try {
-                URL url = new URL("http://sdyusshor1novoch.ru/tuch/get_messages.php?action=select_one_messages&author_id=" + id + "&client_id=" + friend_id);
+                URL url = new URL("http://sdyusshor1novoch.ru/tuch/get_messages.php?action=messages_of_one_dialogue&author_id=" + id + "&client_id=" + friend_id);
                 httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("GET");
                 httpURLConnection.connect();
@@ -320,12 +320,7 @@ public class DialogActivity extends AppCompatActivity
                     Log.d("MyLogs", jsonObject.toString());
                     message_author_id.add(jsonObject.getString("author_id"));
                     message_text.add(AES.decrypt(jsonObject.getString("text"), password));
-                    Calendar c = Calendar.getInstance();
-                    c.setTimeInMillis(Long.valueOf(jsonObject.getInt("time")));
-                    SimpleDateFormat formatDate = new SimpleDateFormat("HH:mm");
-                    String formatted = formatDate.format(c.getTime());
-                    messageTimeDate.add(formatted);
-                    c.clear();
+                    messageTimeDate.add(jsonObject.getString("time"));
                     sticker_id.add(jsonObject.getString("sticker_id"));
                 }
                 Log.d("MyLogs", "Выполнен метод OnPostExecute");
