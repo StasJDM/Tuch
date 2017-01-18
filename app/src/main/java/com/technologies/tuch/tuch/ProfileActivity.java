@@ -22,6 +22,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.technologies.tuch.tuch.DataBase.FriendRequest;
+import com.technologies.tuch.tuch.SQLite.Post;
 import com.technologies.tuch.tuch.Settings.AccountSettingsActivity;
 import com.technologies.tuch.tuch.Settings.SettingsActivity;
 
@@ -55,13 +56,7 @@ public class ProfileActivity extends AppCompatActivity
     String name_surname = "";
     String name = "";
     String surname = "";
-    ArrayList<String> author_id = new ArrayList();
-    ArrayList<String> author_name = new ArrayList();
-    ArrayList<String> author_surname = new ArrayList();
-    ArrayList<String> post_id = new ArrayList();
-    ArrayList<String> date_create = new ArrayList();
-    ArrayList<String> text = new ArrayList();
-    ArrayList<String> author_name_surname = new ArrayList();
+    ArrayList<Post> posts;
 
 
     @Override
@@ -244,15 +239,13 @@ public class ProfileActivity extends AppCompatActivity
                 Log.d("MyLogs", "Начал выполняться метод onPostExecute");
                 JSONArray jsonArray = new JSONArray(strJson);
                 JSONObject jsonObject;
+                posts.clear();
                 int i = 0;
+                Post post;
                 while (i < jsonArray.length()){
                     jsonObject = jsonArray.getJSONObject(i);
                     Log.d("MyLogs", jsonObject.toString());
-                    author_id.add(jsonObject.getString("author_id"));
-                    author_name.add(jsonObject.getString("author_name"));
-                    post_id.add(jsonObject.getString("id"));
-                    date_create.add(jsonObject.getString("date_create"));
-                    text.add(jsonObject.getString("text"));
+                    post = new Post(jsonObject.getString("id"), jsonObject.getString("author_id"), jsonObject.getString("author_name"), jsonObject.getString("text"), jsonObject.getString("date_create"));
                     i++;
                 }
                 createListPosts();
@@ -265,16 +258,13 @@ public class ProfileActivity extends AppCompatActivity
 
     public void createListPosts(){
 
-        ArrayList<Map<String, Object>> arrayList = new ArrayList<Map<String, Object>>(post_id.size());
+        ArrayList<Map<String, Object>> arrayList = new ArrayList<Map<String, Object>>(posts.size());
         Map<String, Object> map;
-        for (int i = post_id.size(); i!=0; i--) {
+        for (int i = posts.size(); i!=0; i--) {
             map = new HashMap<String, Object>();
-            map.put("author_name_surname", author_name.get(i-1));
-            Log.d("MyLogs", author_name.get(i-1));
-            map.put("date_create", date_create.get(i-1));
-            Log.d("MyLogs", date_create.get(i-1));
-            map.put("text", text.get(i-1));
-            Log.d("MyLogs", text.get(i-1));
+            map.put("author_name_surname", posts.get(i-1).getAuthorName());
+            map.put("date_create", posts.get(i-1).getDateCreate());
+            map.put("text", posts.get(i-1).getText());
             arrayList.add(map);
         }
         String[] from = {"author_name_surname", "date_create", "text"};

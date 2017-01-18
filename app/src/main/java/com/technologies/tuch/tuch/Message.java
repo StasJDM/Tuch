@@ -18,8 +18,39 @@ public class Message {
     private String clientName;
 
 
-    public void Message() {
-        //initialization params if need
+    public Message(String id, String authorId, String clientId, String type, String name, String text, String dateTime, String quantity, String usersId, String userNameSurname, String authorName, String clientName) {
+        this.id = id;
+        this.authorId = authorId;
+        this.clientId = clientId;
+        this.type = type;
+        this.name = name;
+        this.text = text;
+        this.dateTime = dateTime;
+        this.quantity = quantity;
+        this.usersId = usersId;
+        this.userNameSurname = userNameSurname;
+        this.authorName = authorName;
+        this.clientName = clientName;
+    }
+
+    public Message(String id, String authorId, String clientId, String type, String name, String text, String dateTime, String authorName, String clientName) {
+        this.id = id;
+        this.authorId = authorId;
+        this.clientId = clientId;
+        this.type = type;
+        this.name = name;
+        this.text = text;
+        this.dateTime = dateTime;
+        this.authorName = authorName;
+        this.clientName = clientName;
+    }
+
+    public Message(String usersId, String userNameSurname, String text, String quantity, String dateTime) {
+        this.usersId = usersId;
+        this.userNameSurname = userNameSurname;
+        this.text = text;
+        this.quantity =quantity;
+        this.dateTime = dateTime;
     }
 
     //GETTING

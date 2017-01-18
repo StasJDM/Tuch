@@ -38,7 +38,7 @@ public class SettingsActivity extends AppCompatActivity
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -99,7 +99,13 @@ public class SettingsActivity extends AppCompatActivity
                         break;
                     case 4:
                         intent = new Intent(SettingsActivity.this, LoginActivity.class);
+                        sharedPreferences.edit().remove("id");
+                        sharedPreferences.edit().remove("name");
+                        sharedPreferences.edit().remove("surname");
+                        sharedPreferences.edit().remove("c");
+                        sharedPreferences.edit().clear();
                         startActivity(intent);
+                        finish();
                         break;
                 }
             }

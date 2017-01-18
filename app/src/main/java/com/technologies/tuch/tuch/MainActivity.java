@@ -4,22 +4,19 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 public class MainActivity extends AppCompatActivity {
 
-    String name = "";
-    String surname = "";
+    int c;
     SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedPreferences = getSharedPreferences("user_info", MODE_PRIVATE);
-        name = sharedPreferences.getString("name", "");
-        surname = sharedPreferences.getString("surname", "");
-        //Intent intent = new Intent(MainActivity.this, ContactsActivity.class);
-        //startActivity(intent);
-        if (!name.equals("") && !surname.equals("")) {
+        c = sharedPreferences.getInt("c", 0);
+        if (c==1) {
             Intent intent = new Intent(MainActivity.this, MessageActivity.class);
             startActivity(intent);
         } else {

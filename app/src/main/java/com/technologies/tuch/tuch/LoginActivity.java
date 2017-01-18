@@ -140,6 +140,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
                     editor.putString("surname", surname);
                     editor.putString("id", id);
                     editor.putString("password", password);
+                    editor.putInt("c", 1);
                     editor.apply();
                     Intent intent = new Intent(LoginActivity.this, MessageActivity.class);
                     startActivity(intent);

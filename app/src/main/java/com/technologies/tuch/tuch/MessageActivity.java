@@ -59,19 +59,6 @@ public class MessageActivity extends AppCompatActivity
     String name = "";
     String surname = "";
     ArrayList<Message> messages = new ArrayList<>();
-    /*ArrayList<String> message_id = new ArrayList();
-    ArrayList<String> message_author_id = new ArrayList();
-    ArrayList<String> message_client_id = new ArrayList();
-    ArrayList<String> message_type = new ArrayList();
-    ArrayList<String> message_name = new ArrayList();
-    ArrayList<String> message_text = new ArrayList();
-    ArrayList<String> message_date_time = new ArrayList();
-    ArrayList<String> messageQuantity = new ArrayList<>();
-    ArrayList<String> users_id = new ArrayList();
-    ArrayList<String> user_name_surname = new ArrayList<>();
-    ArrayList<String> author_name = new ArrayList<>();
-    ArrayList<String> client_name = new ArrayList<>();*/
-    int i_gui = 0;
     String password = "dsobgigsblsd934n398gdjm349tgwle5dh3ngdfs9g34nirf234342refe";
     SQLiteCreater sqLiteCreater;
 
@@ -191,7 +178,6 @@ public class MessageActivity extends AppCompatActivity
         protected String doInBackground(Void... params) {
 
             try {
-                i_gui = 0;
                 Log.d("MyLogs", "Начало получение сообщений");
                 URL url = new URL("http://sdyusshor1novoch.ru/tuch/get_messages.php?action=all_messages&author_id=" + id);
                 httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -220,25 +206,12 @@ public class MessageActivity extends AppCompatActivity
                 JSONArray jsonArray = new JSONArray(strJson);
                 JSONObject jsonObject;
                 int i = 0;
-                /*users_id.clear();
-                user_name_surname.clear();
-                message_text.clear();
-                messageQuantity.clear();
-                message_date_time.clear();*/
+                messages.clear();
                 Message message;
                 while (i < jsonArray.length()) {
-                    message = new Message();
                     jsonObject = jsonArray.getJSONObject(i);
+                    message = new Message(jsonObject.getString("id"), jsonObject.getString("author_id"), jsonObject.getString("client_id"), jsonObject.getString("type"), jsonObject.getString("name"), AES.decrypt(jsonObject.getString("last_message"), password), jsonObject.getString("last_message_time"), AES.decrypt(jsonObject.getString("author_name"), password), AES.decrypt(jsonObject.getString("client_name"), password));
                     Log.d("MyLogs", jsonObject.toString());
-                    message.setId(jsonObject.getString("id"));
-                    message.setAuthorId(jsonObject.getString("author_id"));
-                    message.setClientId(jsonObject.getString("client_id"));
-                    message.setType(jsonObject.getString("type"));
-                    message.setName(jsonObject.getString("name"));
-                    message.setAuthorName(AES.decrypt(jsonObject.getString("author_name"), password));
-                    message.setClientName(AES.decrypt(jsonObject.getString("client_name"), password));
-                    message.setText(AES.decrypt(jsonObject.getString("last_message"), password));
-                    message.setDateTime(jsonObject.getString("last_message_time"));
                     if (message.getAuthorId().equals(id)) {
                         message.setUsersId(message.getClientId());
                         message.setQuantity(jsonObject.getString("is_read_1"));
@@ -308,12 +281,6 @@ public class MessageActivity extends AppCompatActivity
             }
         });
 
-        /*users_id.clear();
-        user_name.clear();
-        user_surname.clear();
-        message_text.clear();
-        messageQuantity.clear();
-        message_date_time.clear();*/
     }
 
     public void updateSQLiteMessages() {
@@ -328,16 +295,11 @@ public class MessageActivity extends AppCompatActivity
             contentValues.put("quantity", Integer.valueOf(messages.get(i).getQuantity()));
             long rowID = db.update("Messages", contentValues, "id = ?", new String[] { messages.get(i).getUsersId() });
         }
-        /*users_id.clear();
-        user_name.clear();
-        user_surname.clear();
-        message_text.clear();
-        messageQuantity.clear();
-        message_date_time.clear();*/
     }
 
     public void getSQLiteMessages() {
 
+        messages.clear();
         ContentValues contentValues = new ContentValues();
         SQLiteDatabase db = sqLiteCreater.getWritableDatabase();
         Cursor c = db.query("Messages", null, null, null, null, null, null);
@@ -349,12 +311,8 @@ public class MessageActivity extends AppCompatActivity
             int quantityIndex = c.getColumnIndex("quantity");
             Message message;
             do {
-                message = new Message();
-                message.setUsersId(String.valueOf(c.getInt(idIndex)));
-                message.setUserNameSurname(c.getString(friendIndex));
-                message.setText(c.getString(last_message_textIndex));
-                message.setQuantity(String.valueOf(c.getInt(quantityIndex)));
-                message.setDateTime(c.getString(last_message_timeIndex));
+                message = new Message(String.valueOf(c.getInt(idIndex)), c.getString(friendIndex), c.getString(last_message_textIndex) , String.valueOf(c.getInt(quantityIndex)), c.getString(last_message_timeIndex));
+                messages.add(message);
             } while (c.moveToNext());
             createListMessages();
             new GetAllMessages().execute();
