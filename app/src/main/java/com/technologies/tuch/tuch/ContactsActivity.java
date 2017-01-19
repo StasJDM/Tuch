@@ -46,13 +46,7 @@ public class ContactsActivity extends AppCompatActivity
     String id = "";
     String name = "";
     String surname = "";
-    ArrayList<String> contact_1_id = new ArrayList();
-    ArrayList<String> contact_2_id = new ArrayList();
-    ArrayList<String> contact_1_name_surname = new ArrayList();
-    ArrayList<String> contact_2_name_surname = new ArrayList();
-    ArrayList<String> friend_id = new ArrayList();
-    ArrayList<String> friend_names = new ArrayList();
-    ArrayList<String> type = new ArrayList();
+    ArrayList<Contact> contacts;
     LinearLayout buttonSearchFriends;
     LinearLayout buttonInviteFriends;
     FrameLayout frameLayoutNewFriends;
@@ -281,22 +275,23 @@ public class ContactsActivity extends AppCompatActivity
                 JSONArray jsonArray = new JSONArray(strJson);
                 JSONObject jsonObject;
                 int i = 0;
+                Contact contact;
                 while (i < jsonArray.length()) {
+                    contact = new Contact();
                     jsonObject = jsonArray.getJSONObject(i);
                     Log.d("MyLogs", jsonObject.toString());
-                    type.add(jsonObject.getString("type"));
-                    contact_1_id.add(jsonObject.getString("contact_1_id"));
-                    contact_2_id.add(jsonObject.getString("contact_2_id"));
-                    contact_1_name_surname.add(jsonObject.getString("contact_1_name"));
-                    contact_2_name_surname.add(jsonObject.getString("contact_2_name"));
-                    Log.d("MyLogs", "Contact 1 id : "+contact_1_id.get(i)+" Contact 2 id : "+contact_2_id.get(i));
+                    contact.setType(jsonObject.getString("type"));
+                    contact.setContact_1_id(jsonObject.getString("contact_1_id"));
+                    contact.setContact_2_id(jsonObject.getString("contact_2_id"));
+                    contact.setContact_1_name(jsonObject.getString("contact_1_name"));
+                    contact.setContact_2_name(jsonObject.getString("contact_2_name"));
                     if (jsonObject.getString("type").equals("1")) {
-                        if (contact_1_id.get(i).equals(id)){
-                            friend_id.add(contact_2_id.get(i));
-                            friend_names.add(contact_2_name_surname.get(i));
-                        } else if(contact_2_id.get(i).equals(id)){
-                            friend_id.add(contact_1_id.get(i));
-                            friend_names.add(contact_1_name_surname.get(i));
+                        if (contacts.get(i).getContact_1_id().equals(id)){
+                            contact.setFriend_id((contacts.get(i).getContact_1_id()));
+                            contact.setFriend_name(contacts.get(i).getContact_1_name());
+                        } else if(contacts.get(i).getContact_2_id().equals(id)) {
+                            contact.setFriend_id((contacts.get(i).getContact_2_id()));
+                            contact.setFriend_name(contacts.get(i).getContact_2_name());
                         }
                     }
                     i++;
@@ -310,11 +305,11 @@ public class ContactsActivity extends AppCompatActivity
 
     public void createListMessages(){
 
-        ArrayList<Map<String, Object>> arrayList = new ArrayList<Map<String, Object>>(friend_names.size());
+        ArrayList<Map<String, Object>> arrayList = new ArrayList<Map<String, Object>>(contacts.size());
         Map<String, Object> map;
-        for (int i=0; i < friend_names.size(); i++){
+        for (int i=0; i < contacts.size(); i++){
             map = new HashMap<String, Object>();
-            map.put("name", friend_names.get(i));
+            map.put("name", contacts.get(i).getFriend_name());
             map.put("contactAvatar", avatar);
             arrayList.add(map);
         }
@@ -329,8 +324,8 @@ public class ContactsActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(ContactsActivity.this, ProfileActivity.class);
-                intent.putExtra("id", friend_id.get(position));
-                intent.putExtra("name_surname", friend_names.get(position));
+                intent.putExtra("id", contacts.get(position).getFriend_id());
+                intent.putExtra("name_surname", contacts.get(position).getFriend_name());
                 startActivity(intent);
             }
         });
