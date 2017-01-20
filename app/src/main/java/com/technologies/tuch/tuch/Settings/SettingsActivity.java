@@ -27,7 +27,7 @@ import com.technologies.tuch.tuch.ProfileActivity;
 import com.technologies.tuch.tuch.R;
 
 public class SettingsActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener{
 
     String[] nav_settings = {"Редактировать профиль", "Настройки приложения", "Справка", "О приложении", "Выход"};
     TextView textViewNameAndSurnameNavHeader;
@@ -68,6 +68,9 @@ public class SettingsActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View header = navigationView.getHeaderView(0);
+        header.setOnClickListener(this);
+
+
         textViewNameAndSurnameNavHeader = (TextView)header.findViewById(R.id.textViewNameAndSurnameNavHeader);
         textViewNameAndSurnameNavHeader.setText(name + " " + surname);
 
@@ -170,10 +173,16 @@ public class SettingsActivity extends AppCompatActivity
         return true;
     }
 
-    public void onClickNavHeader(View view) {
-        Intent intent = new Intent(SettingsActivity.this, ProfileActivity.class);
-        intent.putExtra("id", id);
-        startActivity(intent);
-        finish();
+    @Override
+    public void onClick(View v) {
+        Intent intent;
+        switch (v.getId()) {
+            case R.id.nav_header:
+                intent = new Intent(SettingsActivity.this, ProfileActivity.class);
+                intent.putExtra("id", id);
+                startActivity(intent);
+                finish();
+                break;
+        }
     }
 }

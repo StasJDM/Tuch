@@ -116,6 +116,7 @@ public class DialogActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View header = navigationView.getHeaderView(0);
+        header.setOnClickListener(this);
         textViewNameAndSurnameNavHeader = (TextView)header.findViewById(R.id.textViewNameAndSurnameNavHeader);
         textViewNameAndSurnameNavHeader.setText(name + " " + surname);
 
@@ -192,13 +193,13 @@ public class DialogActivity extends AppCompatActivity
 
     @Override
     public void onClick(View v){
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.imageViewSendMessage:
                 new_message_text = editTextMessageText.getText().toString();
                 try {
-                    Log.d("MyLogs", "Original: "+new_message_text);
+                    Log.d("MyLogs", "Original: " + new_message_text);
                     new_message_text = AES.encrypt(new_message_text, password);
-                    Log.d("MyLogs", "Encrypted: "+new_message_text);
+                    Log.d("MyLogs", "Encrypted: " + new_message_text);
                 } catch (NoSuchAlgorithmException e) {
                     e.printStackTrace();
                 } catch (NoSuchProviderException e) {
@@ -214,7 +215,6 @@ public class DialogActivity extends AppCompatActivity
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-
                 if (!new_message_text.equals("")) {
                     //new_message_sticker_id = "";
                     new sendMessage().execute();
@@ -224,6 +224,12 @@ public class DialogActivity extends AppCompatActivity
             case R.id.imageViewShowStickers:
                 Intent intent = new Intent(DialogActivity.this, SelectStickerActivity.class);
                 startActivity(intent);
+            case R.id.nav_header:
+                intent = new Intent(DialogActivity.this, ProfileActivity.class);
+                intent.putExtra("id", id);
+                startActivity(intent);
+                finish();
+                break;
         }
     }
 

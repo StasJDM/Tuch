@@ -50,7 +50,7 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 
 public class MessageActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     int friendAvatar = R.drawable.user_avatar;
     TextView textViewNameAndSurnameNavHeader;
@@ -92,6 +92,7 @@ public class MessageActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View header = navigationView.getHeaderView(0);
+        header.setOnClickListener(this);
         textViewNameAndSurnameNavHeader = (TextView) header.findViewById(R.id.textViewNameAndSurnameNavHeader);
         textViewNameAndSurnameNavHeader.setText(name + " " + surname);
 
@@ -159,13 +160,19 @@ public class MessageActivity extends AppCompatActivity
         return true;
     }
 
-    public void onClickNavHeader(View view) {
-
-        Intent intent = new Intent(MessageActivity.this, ProfileActivity.class);
-        intent.putExtra("id", id);
-        startActivity(intent);
-        finish();
+    @Override
+    public void onClick(View v) {
+        Intent intent;
+        switch (v.getId()) {
+            case R.id.nav_header:
+                intent = new Intent(MessageActivity.this, ProfileActivity.class);
+                intent.putExtra("id", id);
+                startActivity(intent);
+                finish();
+                break;
+        }
     }
+
 
     public class GetAllMessages extends AsyncTask<Void, Void, String> {
 

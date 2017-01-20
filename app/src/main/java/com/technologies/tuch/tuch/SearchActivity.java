@@ -34,9 +34,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     final String NOT_FOUND = "По запросу ничего не найдено";
     int avatar = R.drawable.user_avatar;
-    ArrayList<String> id = new ArrayList<String>();
-    ArrayList<String> name = new ArrayList<String>();
-    ArrayList<String> surname = new ArrayList<String>();
+    ArrayList<Contact> contacts;
     String word;
     ListView listViewSearch;
     ImageView buttonSearch;
@@ -103,9 +101,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         protected String doInBackground(Void... params) {
             try {
                 URL url = new URL("http://sdyusshor1novoch.ru/tuch/search.php?word_1=" + wrds.get(0) + "&word_2=" + wrds.get(1));
-                id.clear();
-                name.clear();
-                surname.clear();
+                contacts.clear();
                 wrds.clear();
                 httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("GET");
@@ -136,12 +132,12 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 } else {
                     JSONArray jsonArray = new JSONArray(strJson);
                     JSONObject jsonObject;
+                    Contact contact;
                     for (int i = 0; i < jsonArray.length(); i++) {
                         jsonObject = jsonArray.getJSONObject(i);
                         Log.d("MyLogs", jsonObject.toString());
-                        id.add(jsonObject.getString("_id"));
-                        name.add(jsonObject.getString("name"));
-                        surname.add(jsonObject.getString("surname"));
+                        contact = new Contact(jsonObject.getString("_id"), jsonObject.getString("name"), jsonObject.getString("surname"));
+                        contacts.add(contact);
                     }
                     Log.d("MyLogs", "Выполнен метод OnPostExecute");
                     createListSearch();
@@ -153,11 +149,11 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     public void createListSearch() {
-        ArrayList<Map<String, Object>> arrayList = new ArrayList<Map<String, Object>>(id.size());
+        ArrayList<Map<String, Object>> arrayList = new ArrayList<Map<String, Object>>(contacts.size());
         Map<String, Object> map;
-        for (int i=0; i < id.size(); i++){
+        for (int i=0; i < contacts.size(); i++){
             map = new HashMap<String, Object>();
-            map.put("name", name.get(i) + " " + surname.get(i));
+            map.put("name", contacts.get(i).getFriend_name() + " " + contacts.get(i).getFriend_surname());
             map.put("contactAvatar", avatar);
             arrayList.add(map);
         }
@@ -172,8 +168,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long ids) {
                 Intent intent = new Intent(SearchActivity.this, ProfileActivity.class);
-                intent.putExtra("id", id.get(position));
-                intent.putExtra("name_surname", name.get(position) + " " + surname.get(position));
+                intent.putExtra("id", contacts.get(position).getFriend_id());
+                intent.putExtra("name_surname", contacts.get(position).getFriend_name() + " " + contacts.get(position).getFriend_surname());
                 startActivity(intent);
             }
         });

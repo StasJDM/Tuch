@@ -71,6 +71,7 @@ public class ProfileActivity extends AppCompatActivity
 
         Intent intent =  getIntent();
         id = intent.getStringExtra("id");
+        Log.d("MyLogs", id + " " + my_id);
         if (id.equals(my_id)){
             name_surname = my_name + " " + my_surname;
         } else {
@@ -106,6 +107,7 @@ public class ProfileActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View header = navigationView.getHeaderView(0);
+        header.setOnClickListener(this);
 
         textViewNameAndSurnameNavHeader = (TextView)header.findViewById(R.id.textViewNameAndSurnameNavHeader);
         textViewNameAndSurnameNavHeader.setText(my_name + " " + my_surname);
@@ -193,14 +195,14 @@ public class ProfileActivity extends AppCompatActivity
                 break;
             case R.id.buttonFriendRequest:
                 new FriendRequest(my_id, id, my_name + " " + my_surname, name_surname).execute();
+                break;
+            case R.id.nav_header:
+                intent = new Intent(ProfileActivity.this, ProfileActivity.class);
+                intent.putExtra("id", my_id);
+                startActivity(intent);
+                finish();
+                break;
         }
-    }
-
-    public void onClickNavHeader(View view) {
-        Intent intent = new Intent(ProfileActivity.this, ProfileActivity.class);
-        intent.putExtra("id", my_id);
-        startActivity(intent);
-        finish();
     }
 
 

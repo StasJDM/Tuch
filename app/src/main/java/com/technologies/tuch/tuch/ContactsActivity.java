@@ -43,6 +43,7 @@ public class ContactsActivity extends AppCompatActivity
     int avatar = R.drawable.user_avatar;
     TextView textViewNameAndSurnameNavHeader;
     SharedPreferences sharedPreferences;
+    LinearLayout linearLayout;
     String id = "";
     String name = "";
     String surname = "";
@@ -59,11 +60,12 @@ public class ContactsActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
         sharedPreferences = getSharedPreferences("user_info", MODE_PRIVATE);
         id = sharedPreferences.getString("id", "");
         name = sharedPreferences.getString("name", "");
         surname = sharedPreferences.getString("surname", "");
-
+        Log.d("MyLogs", id);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setImageResource(R.drawable.create_message_icon);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +85,7 @@ public class ContactsActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View header = navigationView.getHeaderView(0);
+        header.setOnClickListener(this);
         textViewNameAndSurnameNavHeader = (TextView)header.findViewById(R.id.textViewNameAndSurnameNavHeader);
         textViewNameAndSurnameNavHeader.setText(name + " " + surname);
 
@@ -111,6 +114,13 @@ public class ContactsActivity extends AppCompatActivity
             case R.id.frameLayoutNewFriends:
                 intent = new Intent(ContactsActivity.this, NewFriendsActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.nav_header:
+                intent = new Intent(ContactsActivity.this, ProfileActivity.class);
+                intent.putExtra("id", id);
+                startActivity(intent);
+                finish();
+                break;
         }
     }
 
@@ -167,18 +177,11 @@ public class ContactsActivity extends AppCompatActivity
                 finish();
         }
 
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    public void onClickNavHeader(View view) {
-        Intent intent = new Intent(ContactsActivity.this, ProfileActivity.class);
-        intent.putExtra("id", id);
-        startActivity(intent);
-        finish();
-    }
 
     public class GetNewFriends extends AsyncTask<Void, Void, String> {
 

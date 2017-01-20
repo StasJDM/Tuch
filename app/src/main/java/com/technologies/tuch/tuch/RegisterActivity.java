@@ -161,8 +161,9 @@ public class RegisterActivity extends AppCompatActivity implements OnClickListen
     }
 
     public void userLogin() {
-        Intent intent = new Intent(RegisterActivity.this, MessageActivity.class);
+        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
         startActivity(intent);
+        finish();
     }
 
 }

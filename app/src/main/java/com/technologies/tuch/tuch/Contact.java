@@ -11,7 +11,18 @@ public class Contact {
     private String contact_2_name;
     private String friend_id;
     private String friend_name;
+    private String friend_surname;
     private String type;
+
+    public Contact() {
+
+    }
+
+    public Contact(String id, String name, String surname) {
+        this.friend_id = id;
+        this.friend_name = name;
+        this.friend_surname = surname;
+    }
 
     public String getContact_1_id() {
         return this.contact_1_id;
@@ -35,6 +46,10 @@ public class Contact {
 
     public String getFriend_name() {
         return this.friend_name;
+    }
+
+    public String getFriend_surname() {
+        return this.friend_surname;
     }
 
     public String getType() {
@@ -64,6 +79,11 @@ public class Contact {
     public void setFriend_name(String data) {
         this.friend_name = data;
     }
+
+    public void setFriend_surname(String data) {
+        this.friend_surname = data;
+    }
+
 
     public void setType(String data) {
         this.type = data;
